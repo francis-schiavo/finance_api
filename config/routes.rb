@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :people
     end
     namespace :v1 do
+      resources :accounts
       get '/healthcheck', to: 'special_pages#healthcheck'
 
       resources :people
