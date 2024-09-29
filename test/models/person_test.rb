@@ -3,6 +3,10 @@
 require 'test_helper'
 
 class PersonTest < ActiveSupport::TestCase
+  def setup
+    @person = people(:one)
+  end
+
   test 'should create person' do
     person = Person.new(name: 'John', last_name: 'Doe', birthday: '1990-01-01')
 
@@ -28,11 +32,9 @@ class PersonTest < ActiveSupport::TestCase
   end
 
   test 'should update person' do
-    person = people(:john)
+    @person.name = 'Johnny'
 
-    person.name = 'Johnny'
-
-    assert person.save
+    assert @person.save
   end
 
   test 'should destroy person' do

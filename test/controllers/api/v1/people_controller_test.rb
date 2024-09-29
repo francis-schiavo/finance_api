@@ -6,7 +6,7 @@ module Api
   module V1
     class PeopleControllerTest < ActionDispatch::IntegrationTest
       setup do
-        @person = people(:john)
+        @person = people(:one)
         @person_data = @person.attributes.slice('name', 'last_name', 'birthday')
       end
 

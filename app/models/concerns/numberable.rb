@@ -5,6 +5,8 @@ module Numberable
   extend ActiveSupport::Concern
 
   included do
+    attr_readonly :number
+
     before_create :generate_number
   end
 

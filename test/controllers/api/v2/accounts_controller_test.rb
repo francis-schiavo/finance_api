@@ -6,7 +6,7 @@ module Api
   module V2
     class AccountsControllerTest < ActionDispatch::IntegrationTest
       setup do
-        @account = accounts(:account_one)
+        @account = accounts(:one)
         @account_data = @account.attributes.slice('person_id', 'balance')
       end
 

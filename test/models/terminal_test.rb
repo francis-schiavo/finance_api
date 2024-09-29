@@ -23,11 +23,11 @@ class TerminalTest < ActiveSupport::TestCase
   end
 
   test 'should not delete terminal' do
-    terminal = terminals(:one)
+    terminal = terminals(:deletable)
 
-    terminal.destroy
-
-    assert_not terminal.destroyed?
+    assert_raise ActiveRecord::ReadOnlyRecord do
+      terminal.destroy
+    end
 
     assert_raise ActiveRecord::ReadOnlyRecord do
       terminal.destroy!

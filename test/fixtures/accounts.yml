@@ -1,17 +1,17 @@
-account_one:
-  person: john
+one:
+  person: one
   number: 00000001
   balance: 1500.00
   status: :active
 
-account_two:
-  person: jane
+two:
+  person: two
   number: 00000002
   balance: 750.00
   status: :active
 
 deletable:
-  person: jane
+  person: two
   number: 00000003
   balance: -20.00
   status: :locked

@@ -4,11 +4,11 @@
 module Undeletable
   extend ActiveSupport::Concern
 
-  def destroy
-    errors.add(:base, :cannot_be_deleted)
+  included do
+    before_destroy :prevent_destruction
   end
 
-  def destroy!
+  def prevent_destruction
     raise ActiveRecord::ReadOnlyRecord, 'Record cannot be deleted'
   end
 end

@@ -4,7 +4,8 @@ require 'test_helper'
 
 class AccountTest < ActiveSupport::TestCase
   def setup
-    @person = people(:john)
+    @account = accounts(:one)
+    @person = people(:one)
   end
 
   test 'should create account' do
@@ -44,31 +45,29 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test 'should update account' do
-    account = accounts(:account_one)
-    account.update(balance: 100)
+    @account.update(balance: 100)
 
-    assert_equal 100, account.balance
+    assert_equal 100, @account.balance
   end
 
   test 'should not update account without person' do
-    account = accounts(:account_one)
-    account.update(person: nil)
+    @account.update(person: nil)
 
-    assert_not account.save
+    assert_not @account.save
   end
 
   test 'should not update account without balance' do
-    account = accounts(:account_one)
-    account.update(balance: nil)
+    @account.update(balance: nil)
 
-    assert_not account.save
+    assert_not @account.save
   end
 
   test 'should not destroy any account' do
-    account = accounts(:account_one)
-    account.destroy
+    account = accounts(:deletable)
 
-    assert_not account.destroyed?
+    assert_raise ActiveRecord::ReadOnlyRecord do
+      account.destroy
+    end
 
     assert_raise ActiveRecord::ReadOnlyRecord do
       account.destroy!
