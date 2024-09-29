@@ -1,0 +1,11 @@
+one:
+  number: 00000001
+  alias: Terminal one
+
+two:
+  number: 00000002
+  alias: Terminal two
+
+deletable:
+  number: 00000003
+  alias: Terminal deletable
