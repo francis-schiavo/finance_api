@@ -5,15 +5,15 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :accounts
       get '/healthcheck', to: 'special_pages#healthcheck'
-
       resources :people
+      resources :accounts, except: %i[destroy]
+      resources :terminals, except: %i[destroy]
     end
 
     namespace :v2 do
       resources :people
-      resources :accounts
+      resources :accounts, except: %i[destroy]
     end
   end
 end
