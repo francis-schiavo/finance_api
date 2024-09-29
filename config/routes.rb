@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     namespace :v2 do
       resources :people
       resources :accounts, except: %i[destroy]
+      resources :terminals, except: %i[destroy]
     end
   end
 end
