@@ -9,3 +9,9 @@ require:
 AllCops:
   TargetRubyVersion: 3.3
   NewCops: enable
+
+I18n/RailsI18n:
+  Enabled: true
+
+I18n/GetText:
+  Enabled: false

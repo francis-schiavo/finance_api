@@ -79,8 +79,10 @@ module Api
       end
 
       test 'should destroy person' do
+        person = people(:deletable)
+
         assert_difference('Person.count', -1) do
-          delete api_v2_person_url(@person), as: :json
+          delete api_v2_person_url(person), as: :json
         end
 
         assert_response :no_content

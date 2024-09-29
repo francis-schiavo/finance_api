@@ -1,0 +1,17 @@
+account_one:
+  person: john
+  number: 00000001
+  balance: 1500.00
+  status: :active
+
+account_two:
+  person: jane
+  number: 00000002
+  balance: 750.00
+  status: :active
+
+deletable:
+  person: jane
+  number: 00000003
+  balance: -20.00
+  status: :locked
