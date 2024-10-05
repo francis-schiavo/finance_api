@@ -3,11 +3,11 @@
 require 'test_helper'
 
 module Api
-    class SpecialPagesControllerTest < ActionDispatch::IntegrationTest
-      test 'should get healthcheck' do
-        get api_healthcheck_url
+  class SpecialPagesControllerTest < ActionDispatch::IntegrationTest
+    test 'should get healthcheck' do
+      get api_healthcheck_url
 
-        assert_response :success
-      end
+      assert_response :success
     end
+  end
 end

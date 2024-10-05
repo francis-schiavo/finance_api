@@ -1,0 +1,336 @@
+openapi: 3.1.0
+info:
+  title: Finance API
+  description: Finance API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:3000'
+    description: Local server
+paths:
+  /api/healthcheck:
+    get:
+      summary: Healthcheck
+      responses:
+        '200':
+          description: OK
+          $ref: '#/components/responses/healthcheck'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/people:
+    get:
+      summary: Get all people
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/person'
+              examples:
+                people:
+                  value:
+                    - id: '1'
+                      name: 'John'
+                      last_name: 'Doe'
+                      birthday: '1990-01-01'
+                      created_at: '2024-10-05T00:00:00Z'
+                      updated_at: '2024-10-05T00:00:00Z'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Create a person
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/person'
+            examples:
+              person:
+                value:
+                  name: 'John'
+                  last_name: 'Doe'
+                  birthday: '1990-01-01'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/identity'
+                  - $ref: '#/components/schemas/person'
+                  - $ref: '#/components/schemas/timestamp'
+              examples:
+                person:
+                  value:
+                    id: 'd5f7f19d-568f-4afd-92eb-353984ecbcbd'
+                    name: 'John'
+                    last_name: 'Doe'
+                    birthday: '1990-01-01'
+                    created_at: '2024-10-05T00:00:00Z'
+                    updated_at: '2024-10-05T00:00:00Z'
+        '400':
+          $ref: '#/components/responses/400'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/people/{id}:
+    get:
+      summary: Get a person
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            $ref: '#/components/schemas/uuid'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/identity'
+                  - $ref: '#/components/schemas/person'
+                  - $ref: '#/components/schemas/timestamp'
+              examples:
+                person:
+                  value:
+                      id: 'd5f7f19d-568f-4afd-92eb-353984ecbcbd'
+                      name: 'John'
+                      last_name: 'Doe'
+                      birthday: '1990-01-01'
+                      created_at: '2024-10-05T00:00:00Z'
+                      updated_at: '2024-10-05T00:00:00Z'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: Update a person
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            $ref: '#/components/schemas/uuid'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/person'
+            examples:
+              person:
+                value:
+                  name: 'Jane'
+                  last_name: 'Doe'
+                  birthday: '1990-01-01'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/identity'
+                  - $ref: '#/components/schemas/person'
+                  - $ref: '#/components/schemas/timestamp'
+              examples:
+                person:
+                  value:
+                    id: 'd5f7f19d-568f-4afd-92eb-353984ecbcbd'
+                    name: 'John'
+                    last_name: 'Doe'
+                    birthday: '1990-01-01'
+                    created_at: '2024-10-05T00:00:00Z'
+                    updated_at: '2024-10-05T00:00:00Z'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Delete a person
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            $ref: '#/components/schemas/uuid'
+      responses:
+        '204':
+          description: No content
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+components:
+  schemas:
+    uuid:
+      type: string
+      format: uuid
+    identity:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid'
+    timestamp:
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    status:
+      type: object
+      properties:
+        status:
+          type: string
+    person:
+      type: object
+      properties:
+        name:
+          type: string
+        last_name:
+          type: string
+        birthday:
+          type: string
+          format: date
+  responses:
+    '400':
+      description: Internal server error
+      headers:
+        Content-Type:
+          schema:
+            type: string
+          required: true
+          example: 'application/json'
+        Content-Length:
+          schema:
+            type: integer
+          required: true
+          example: 50
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            error:
+              value:
+                code: 400
+                message: 'Bad request'
+    '404':
+      description: Not found
+      headers:
+        Content-Type:
+          schema:
+            type: string
+          required: true
+          example: 'application/json'
+        Content-Length:
+          schema:
+            type: integer
+          required: true
+          example: 50
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            error:
+              value:
+                code: 404
+                message: 'Record not found'
+    '422':
+      description: Unprocessable entity
+      headers:
+        Content-Type:
+          schema:
+            type: string
+          required: true
+          example: 'application/json'
+        Content-Length:
+          schema:
+            type: integer
+          required: true
+          example: 50
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            error:
+              value:
+                code: 422
+                message: 'Unprocessable entity'
+    '500':
+      description: Internal server error
+      headers:
+        Content-Type:
+          schema:
+            type: string
+          required: true
+          example: 'application/json'
+        Content-Length:
+          schema:
+            type: integer
+          required: true
+          example: 50
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          examples:
+            error:
+              value:
+                code: 500
+                message: 'Internal server error'
+    healthcheck:
+      description: Healthcheck response
+      headers:
+        Content-Type:
+          schema:
+            type: string
+          required: true
+          example: 'application/json'
+        Content-Length:
+          schema:
+            type: integer
+          required: true
+          example: 50
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+          examples:
+            success:
+              value:
+                status: 'ok'
