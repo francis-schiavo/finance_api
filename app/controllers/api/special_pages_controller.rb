@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module Api
-  module V1
     # Special or static pages
     class SpecialPagesController < ApplicationController
-      def healthcheck; end
+      def healthcheck
+        render json: { status: 'ok' }
+      end
     end
-  end
 end

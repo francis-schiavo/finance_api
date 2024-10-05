@@ -39,4 +39,4 @@
 
 # Ignore Docker-related files
 /.dockerignore
-/Dockerfile*
+/development.Dockerfile

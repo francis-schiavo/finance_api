@@ -1,0 +1,68 @@
+name: "FinanceAPI"
+
+services:
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_USER: finance_api
+      POSTGRES_PASSWORD: finance_api
+      POSTGRES_DB: finance_api
+    env_file:
+      - .env
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U finance_api"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  finance-api:
+    build:
+      context: .
+      dockerfile: development.Dockerfile
+      args:
+        DOCKER_USER: ${DOCKER_USER:-rails}
+        DOCKER_UID: ${DOCKER_UID:-1000}
+    container_name: "finance-api"
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: finance_api
+      DATABASE_PASSWORD: finance_api
+      DATABASE_NAME: finance_api
+      DOCKER_USER:
+      DOCKER_UID:
+    env_file:
+      - .env
+    ports:
+      - "${API_PORT:-3000}:3000"
+    volumes:
+      - .:/rails
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+volumes:
+  redis_data:
+  postgres_data:
