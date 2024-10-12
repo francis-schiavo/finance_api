@@ -1,0 +1,17 @@
+one:
+  cacheable: one (Transaction)
+  request_id: <%= SecureRandom.uuid %>
+  payload:
+    sample: payload
+
+two:
+  cacheable: two (Transaction)
+  request_id: <%= SecureRandom.uuid %>
+  payload:
+    sample: payload
+
+deletable:
+  cacheable: two (Transaction)
+  request_id: <%= SecureRandom.uuid %>
+  payload:
+    sample: payload

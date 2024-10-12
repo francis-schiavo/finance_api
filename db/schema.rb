@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_29_182334) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_12_222917) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,6 +23,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_182334) do
     t.datetime "updated_at", null: false
     t.index ["number"], name: "index_accounts_on_number", unique: true
     t.index ["person_id"], name: "index_accounts_on_person_id"
+  end
+
+  create_table "cached_transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "cacheable_type", null: false
+    t.uuid "cacheable_id", null: false
+    t.uuid "request_id", null: false
+    t.jsonb "payload", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cacheable_type", "cacheable_id"], name: "index_cached_transactions_on_cacheable_type_and_cacheable_id"
+    t.index ["request_id"], name: "index_cached_transactions_on_request_id", unique: true
   end
 
   create_table "people", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
