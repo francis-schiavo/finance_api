@@ -5,6 +5,7 @@ module Api
     # Transactions controller V1
     class TransactionsController < ApplicationController
       before_action :set_transaction, only: %i[show]
+      before_action :create_transaction_service, only: %i[create]
 
       # GET /api/v1/transactions
       def index
@@ -20,9 +21,9 @@ module Api
 
       # POST /api/v1/transactions
       def create
-        @transaction = ::Transaction.new(transaction_params)
+        @transaction = @transaction_service.create using_cache: false
 
-        if @transaction.save
+        if @transaction.persisted?
           render json: @transaction, status: :created, location: api_v1_transaction_url(@transaction)
         else
           render json: @transaction.errors, status: :unprocessable_entity
@@ -39,6 +40,10 @@ module Api
       # Only allow a list of trusted parameters through.
       def transaction_params
         params.require(:transaction).permit(:terminal_id, :account_id, :amount, :timestamp)
+      end
+
+      def create_transaction_service
+        @transaction_service = TransactionService.new(transaction_params, request_id: request.uuid)
       end
     end
   end
