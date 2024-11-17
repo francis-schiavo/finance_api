@@ -44,7 +44,7 @@ end
 
 group :development do
   # Code style
-  gem 'rubocop', '~> 1.66'
+  gem 'rubocop', '~> 1.68'
   gem 'rubocop-capybara', '~> 2.21'
   gem 'rubocop-i18n', '~> 3.0'
   gem 'rubocop-minitest', '~> 0.36.0'
