@@ -11,7 +11,9 @@ module Numberable
   end
 
   def generate_number
-    last_number = self.class.select(%i[number]).order(:number).last.number.to_i
+    last_number = self.class.select(%i[number]).order(:number).last&.number&.to_i
+    last_number = 0 if last_number.nil?
+
     self.number = format '%08d', last_number.next
   end
 end

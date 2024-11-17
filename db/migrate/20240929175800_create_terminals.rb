@@ -4,7 +4,7 @@
 class CreateTerminals < ActiveRecord::Migration[7.2]
   def change
     create_table :terminals, id: :uuid do |t|
-      t.integer :number, null: false
+      t.string :number, null: false, limit: 8
       t.string :alias, null: false
 
       t.timestamps

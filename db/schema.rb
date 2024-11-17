@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_12_222917) do
 
   create_table "accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "person_id", null: false
-    t.string "number", null: false
+    t.string "number", limit: 8, null: false
     t.decimal "balance", precision: 10, scale: 2, null: false
     t.integer "status", default: 1, null: false
     t.datetime "created_at", null: false
@@ -45,7 +45,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_12_222917) do
   end
 
   create_table "terminals", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "number", null: false
+    t.string "number", limit: 8, null: false
     t.string "alias", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

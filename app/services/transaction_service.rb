@@ -18,7 +18,7 @@ class TransactionService
   private
 
   def cached?
-    @cached_response = CachedTransaction.find_by(request_id: @params[:request_id])
+    @cached_response = CachedTransaction.find_by(request_id:)
     return false if @cached_response.blank?
 
     @transaction = @cached_response.cacheable
